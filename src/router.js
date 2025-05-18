@@ -6,7 +6,7 @@ import Dashboard from './components/Dashboard.vue';
 import TaskList from './components/TaskList.vue'; // importa il componente task list
 
 const routes = [
-    { path: '/login', name: 'Login', component: LoginPage },
+    { path: '/', name: 'Login', component: LoginPage },
     { path: '/signup', name: 'Signup', component: SignupPage },
     {
         path: '/dashboard',
