@@ -130,8 +130,19 @@ export default {
         <button @click="editing = false" class="btn btn-sm btn-secondary">Annulla</button>
       </div>
       <div v-else>
-        <button @click="startEditing" class="btn btn-sm btn-warning me-2">Modifica</button>
-        <button @click="deleteTask" class="btn btn-sm btn-danger">Elimina</button>
+        <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center">
+            <button @click="startEditing" class="btn-edit me-3" type="button">
+                <img src="/edit.svg" alt="edit" class="crud" />
+            </button>
+            <button @click="" class="btn-detail me-3" type="button">
+                <img src="/detail.svg" alt="detail" class="crud" />
+            </button>
+            <button @click="deleteTask" class="btn-remove me-2" type="button">
+                <img src="/remove.svg" alt="remove" class="crud" />
+            </button>
+            </div>
+        </div>
       </div>
     </div>
   </div>
@@ -141,6 +152,10 @@ export default {
 <style lang="scss"scoped>
 @use 'src/assets/partials/mixin' as*;
 @use 'src/assets/partials/variables' as*;
+
+.form-select{
+    @include form-select;
+}
 
 .description{
     color: $custom-icon-color;
@@ -199,6 +214,39 @@ export default {
 .company-lubex {
   border-color: $company-lubex;
   color: $company-lubex;
+}
+
+
+.btn-edit,
+.btn-remove,
+.btn-detail {
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 1rem;
+  width: 50px;  // un po’ più grande per contenere bene l’icona
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-edit {
+  border-color: #80FF80;
+}
+
+.btn-remove {
+  border-color: #FF7375;
+}
+
+.btn-detail {
+  border-color: #00A6FF;
+}
+
+.crud {
+  width: 20px;
+  height: auto;
 }
 
 

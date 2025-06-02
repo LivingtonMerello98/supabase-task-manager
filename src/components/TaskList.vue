@@ -1,4 +1,5 @@
 <script>
+//tasklist
 import { taskStore } from '@/store';
 import Task from './Task.vue';
 
@@ -9,10 +10,22 @@ export default {
       return taskStore;
     },
     filteredTasks() {
-      if (!this.store.selectedCompany) return this.store.tasks;
-      return this.store.tasks.filter(
-        task => task.company?.name_company === this.store.selectedCompany
-      );
+      let filtered = this.store.tasks;
+
+      if (this.store.selectedCompany) {
+        filtered = filtered.filter(
+          task => task.company?.name_company === this.store.selectedCompany
+        );
+      }
+
+      if (this.store.taskFilter) {
+        filtered = filtered.filter(task =>
+          task.name.toLowerCase().includes(this.store.taskFilter) ||
+          (task.description && task.description.toLowerCase().includes(this.store.taskFilter))
+        );
+      }
+
+      return filtered;
     }
   }
 };
@@ -53,8 +66,7 @@ export default {
 }
 
 .table-scroll-wrapper{
-  max-height: 440px;
-  min-height: 440px;
+  max-height: 550px;
   overflow-y: auto;
   border-radius: 10px;
   padding: 10px;

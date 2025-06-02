@@ -1,4 +1,5 @@
 <script>
+//main
 import Header from './Header.vue';
 import TaskList from './TaskList.vue';
 import { taskStore } from '@/store';
@@ -8,7 +9,8 @@ export default {
   data() {
     return {
       isHidden: false,
-      store: taskStore
+      store: taskStore,
+       filterText: ''
     };
   },
   mounted() {
@@ -25,6 +27,9 @@ export default {
     },
     setFilter(companyName) {
       this.store.selectedCompany = companyName;
+    },
+    onFilterInput() {
+      this.store.setTaskFilter(this.filterText);
     }
   }
 };
@@ -33,14 +38,16 @@ export default {
 <template>
   <Header />
   <div class="layout">
+    <div class="sign">
+      <p class="">
+        Designed by <span class="fw-semibold fst-italic">Method</span>.
+      </p>
+    </div>
     <div class="sidebar" :class="{ hidden: isHidden }">
       
     </div>
 
     <div class="content">
-      <button @click="toggle" class="btn btn-secondary toggle-button">
-        {{ isHidden ? 'open' : 'X' }}
-      </button>
 
       <!-- btn filtro dinamici parte alta -->
       <div class="button-container py-3">
@@ -50,7 +57,7 @@ export default {
           :style="{ left: `${0 * 110}px` }"
           @click="setFilter(null)"
         >
-          Overview
+          OVERVIEW
         </button>
 
         <button
@@ -62,6 +69,11 @@ export default {
           @click="setFilter(company.name_company)"
         >
           {{ company.name_company }}
+        </button>
+
+        <button @click="toggle" class="  toggle-button">
+          <img v-if="isHidden" src="/sidebar-open.svg" alt="Apri" class="img-toggle" />
+          <img v-else src="/sidebar-open.svg" alt="Chiudi" class="img-toggle"/>
         </button>
       </div>
 
@@ -75,7 +87,13 @@ export default {
                 <span class="icon">
                 <font-awesome-icon icon="filter" />
                 </span>
-                <input type="text" class="input-action" />
+                <input 
+                  type="text" 
+                  class="input-action" 
+                  placeholder="Filter Tasks" 
+                  v-model="filterText" 
+                  @input="onFilterInput"
+                />
               </button>
             </div>
 
@@ -104,6 +122,14 @@ export default {
 @use 'src/assets/partials/mixin' as*;
 @use 'src/assets/partials/variables' as*;
 
+.sign {
+  position: absolute;
+  color: $custom-icon-color;
+  right: 100px;
+  bottom: 50px;
+  font-size: 12px;
+}
+
 
 .action-button {
   .input-group {
@@ -117,7 +143,7 @@ export default {
     cursor: pointer;
 
     &:hover {
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+       box-shadow: 0 0 4px 1px rgba($custom-outline-color, 0.4);
     }
 
     .icon {
@@ -139,6 +165,10 @@ export default {
       }
     }
   }
+}
+
+.button-label{
+  color: $custom-icon-color;
 }
 
 
@@ -194,6 +224,7 @@ export default {
   background-color: #121212;
   height: calc(100vh - 55px);
   display: flex;
+  position: relative;
 }
 
 .sidebar {
@@ -226,9 +257,20 @@ export default {
 }
 
 .toggle-button {
+  background-color: transparent;
+  border: none;
   position: absolute;
-  top: 1rem;
+  top: 5rem;
   right: 1rem;
+  z-index: 999;
+  &:hover{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+
+.img-toggle{
+  width: 30px;
 }
 </style>
 

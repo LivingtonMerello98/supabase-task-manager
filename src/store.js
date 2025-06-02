@@ -10,6 +10,7 @@ export const taskStore  = reactive({
   tasks: [],
   loading: false,
   error: null,
+  taskFilter: '',  
 
   //funz recupero task
   async fetchTasks() {
@@ -63,4 +64,9 @@ export const taskStore  = reactive({
       this.error = 'Errore nel caricamento delle aziende: ' + err.message;
     }
   },
+
+  setTaskFilter(filter) {
+    this.taskFilter = filter.toLowerCase();
+  },
+
 })

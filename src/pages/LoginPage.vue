@@ -65,6 +65,11 @@ export default {
 
 <template>
   <div class="page">
+    <div class="sign">
+        <p class="">
+          Designed by <span class="fw-semibold fst-italic">Method</span>.
+        </p>
+    </div>
     <div class="container mt-5">
         <div class="row justify-content-center">
           <div class="col-md-6 col-lg-4">
@@ -131,6 +136,15 @@ export default {
 @use 'src/assets/partials/mixin' as*;
 @use 'src/assets/partials/variables' as*;
 
+.sign {
+  position: absolute;
+  color: $custom-icon-color;
+  right: 100px;
+  bottom: 50px;
+  font-size: 12px;
+}
+
+
 .logo{
   width: 100px;
 }
@@ -139,6 +153,7 @@ export default {
   min-height: 100vh;
   display: flex;
   align-items: center;
+  position: relative;
 }
 .card {
   border-radius: 0.5rem;
