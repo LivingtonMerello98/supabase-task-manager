@@ -71,7 +71,7 @@ export default {
             <div class="card shadow">
               <div class="card-body">
                 <div class="d-flex justify-content-center mb-4">
-                  <img src="/public/logo.svg" alt="logo" class="logo">
+                  <img src="/logo-name.svg" alt="logo" class="logo">
                 </div>
                 <form @submit.prevent="handleLogin">
                   <!-- Email -->

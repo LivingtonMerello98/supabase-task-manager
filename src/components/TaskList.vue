@@ -52,13 +52,12 @@ export default {
   border-spacing: 0 1rem;
 }
 
-.table-scroll-wrapper {
-  max-height: 520px;
+.table-scroll-wrapper{
+  max-height: 440px;
+  min-height: 440px;
   overflow-y: auto;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
   border-radius: 10px;
   padding: 10px;
-  background-color: $custom-secondary-color;
+  background-color: $custom-primary-color;
 }
 </style>

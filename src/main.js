@@ -18,7 +18,9 @@ import {
     faLock,
     faSignInAlt,
     faCheckCircle,
-    faExclamationTriangle
+    faExclamationTriangle,
+    faFilter,
+    faPlus 
 } from '@fortawesome/free-solid-svg-icons';
 
 // Aggiungi le icone alla libreria
@@ -28,7 +30,9 @@ library.add(
     faLock,
     faSignInAlt,
     faCheckCircle,
-    faExclamationTriangle
+    faExclamationTriangle,
+    faFilter,
+    faPlus 
 );
 
 

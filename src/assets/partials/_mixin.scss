@@ -1,6 +1,17 @@
 @use './variables' as *;
 
-//buttons 
+//pill
+
+@mixin pill{
+    min-width: 100px;
+    font-size: 14px;
+    border-radius: 1rem;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid;
+    background-color: transparent;
+    text-align: center;
+    display: inline-block;
+}
 
 //button from primary to grey in hover
 @mixin btn-primary-to-secondary {

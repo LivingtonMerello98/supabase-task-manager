@@ -42,7 +42,7 @@ export default {
         {{ isHidden ? 'open' : 'X' }}
       </button>
 
-      <!-- Bottoni filtro dinamici parte alta -->
+      <!-- btn filtro dinamici parte alta -->
       <div class="button-container py-3">
         <button
           class="btn btn-sm button"
@@ -65,9 +65,37 @@ export default {
         </button>
       </div>
 
-      <hr class="line">
-      <!-- Task list -->
-      <TaskList />
+      <div class="container-fluid">
+        <!-- aggiungi task e filtra -->
+        <hr class="line">
+          <div class="d-flex py-3">
+            <!-- filtro -->
+            <div class="action-button me-3">
+              <button class="input-group">
+                <span class="icon">
+                <font-awesome-icon icon="filter" />
+                </span>
+                <input type="text" class="input-action" />
+              </button>
+            </div>
+
+            <!-- add task -->
+            <div class="action-button">
+              <button class="input-group">
+                <span class="icon">
+                  <font-awesome-icon icon="plus" class="me-2" />
+                </span>
+                <span class="button-label">Add Task</span>
+              </button>
+            </div>
+
+            
+          </div>
+        <hr class="line">
+        <!-- Task list -->
+        <TaskList />
+        <hr class="line mt-4">
+      </div>
     </div>
   </div>
 </template>
@@ -75,6 +103,54 @@ export default {
 <style lang="scss" scoped>
 @use 'src/assets/partials/mixin' as*;
 @use 'src/assets/partials/variables' as*;
+
+
+.action-button {
+  .input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid $custom-icon-color; // usa una tua variabile, o fallback con colore statico
+    border-radius: 2rem; // bordi rotondi
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+    }
+
+    .icon {
+      color: $custom-icon-color;
+      font-size: 1rem;
+    }
+
+    .input-action {
+      background-color: transparent;
+      color: $custom-icon-color;
+      border: none;
+      outline: none;
+      padding-left: 1rem;
+      font-size: 1rem;
+      flex-grow: 1;
+
+      &::placeholder {
+        color: $custom-icon-color;
+      }
+    }
+  }
+}
+
+
+.form-control{
+  @include form-control
+}
+
+.input-group-text{
+  background-color: $custom-secondary-color;
+  color:$custom-icon-color;
+  border: 1px solid $custom-border-color;
+}
 
 .button-container{
   position: relative;
@@ -89,6 +165,7 @@ export default {
   border-bottom: 2px solid transparent;
   border-radius: 0;
   padding: 0.3rem 0.5rem;
+  transition: border-bottom 0.2s ease, color 0.2s ease;
   cursor: pointer;
 
   &:focus,
@@ -105,7 +182,8 @@ export default {
 .active-button {
   border-bottom: 1px solid white;
   color: white; 
-}
+    font-weight: 700;
+  }
 
 
 .line{
@@ -122,7 +200,7 @@ export default {
   background-color: $custom-secondary-color;
   color: white;
   height: 100%;
-  width: 300px;
+  width: 270px;
   transition: width 0.3s ease, opacity 0.3s ease;
   overflow: hidden;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);

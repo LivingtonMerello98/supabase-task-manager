@@ -17,7 +17,7 @@ export default {
 <template>
     <section class="section">
         <div class="container-fluid py-2">
-            <button @click="handleLogout" class="btn btn-danger">Logout</button>
+            <button @click="handleLogout" class="btn text-white">Logout</button>
         </div>
     </section>
 </template>

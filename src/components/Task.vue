@@ -43,6 +43,28 @@ export default {
         state_id: this.task.state_id
       };
     },
+    getStateClass(state) {
+        switch (state) {
+            case 'To Do':
+            return 'state-todo';
+            case 'On Going':
+            return 'state-ongoing';
+            case 'Done':
+            return 'state-done';
+            default:
+            return '';
+        }
+    },
+    getCompanyClass(companyName) {
+        switch (companyName) {
+            case 'ORANGE ID':
+            return 'company-orange';
+            case 'LUBEX S.P.A':
+            return 'company-lubex';
+            default:
+            return '';
+        }
+    },
     async saveTask() {
       const { error } = await supabase
         .from('task')
@@ -66,26 +88,43 @@ export default {
 </script>
 
 <template>
-  <tr v-if="task" class="record-row">
-    <td>
-      <input v-if="editing" v-model="editedTask.name" class="form-control" />
-      <span v-else>{{ task.name }}</span>
-    </td>
-    <td>
-      <input v-if="editing" v-model="editedTask.description" class="form-control" />
-      <span v-else>{{ task.description }}</span>
-    </td>
-    <td>
-      <select v-if="editing" v-model="editedTask.state_id" class="form-select">
-        <option v-for="state in states" :key="state.id" :value="state.id">
-          {{ state.description_state }}
-        </option>
-      </select>
-      <span v-else>{{ task.state.description_state }}</span>
-    </td>
-    <td>{{ task.company.name_company }}</td>
-    <td>{{ task.time }}</td>
-    <td>
+  <div v-if="task" class="record d-flex justify-content-between align-items-center">
+    <div class="flex-fill px-3">
+      <div class="row">
+        <div class="col-2 d-flex justify-content-center align-items-center border-right py-2">
+          <input v-if="editing" v-model="editedTask.name" class="form-control" />
+          <span v-else>{{ task.name }}</span>
+        </div>
+        <div class="col-3 d-flex align-items-center border-right ">
+          <input v-if="editing" v-model="editedTask.description" class="form-control" />
+          <span class="description" v-else>{{ task.description.length > 25 ? task.description.slice(0, 25) + '...' : task.description }}</span>
+        </div>
+        <div class="col-2 d-flex justify-content-center align-items-center border-right">
+          {{ task.time }}
+        </div>
+        <div class="col-2 d-flex justify-content-center align-items-center">
+          <select v-if="editing" v-model="editedTask.state_id" class="form-select">
+            <option v-for="state in states" :key="state.id" :value="state.id">
+              {{ state.description_state }}
+            </option>
+          </select>
+          <span
+                v-else
+                :class="['state-pill', getStateClass(task.state.description_state)]"
+                >
+                {{ task.state.description_state }}
+          </span>
+        </div>
+        <div class="col-2 d-flex justify-content-center align-items-center">
+            <span
+                :class="['company-pill', getCompanyClass(task.company.name_company)]"
+            >
+                {{ task.company.name_company }}
+            </span>
+        </div>
+      </div>
+    </div>
+    <div class="px-3">
       <div v-if="editing">
         <button @click="saveTask" class="btn btn-sm btn-success me-2">Salva</button>
         <button @click="editing = false" class="btn btn-sm btn-secondary">Annulla</button>
@@ -94,27 +133,73 @@ export default {
         <button @click="startEditing" class="btn btn-sm btn-warning me-2">Modifica</button>
         <button @click="deleteTask" class="btn btn-sm btn-danger">Elimina</button>
       </div>
-    </td>
-  </tr>
+    </div>
+  </div>
 </template>
+
 
 <style lang="scss"scoped>
 @use 'src/assets/partials/mixin' as*;
 @use 'src/assets/partials/variables' as*;
 
-.record-row {
-  background-color: $custom-secondary-color;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  border-radius: 10px;
+.description{
+    color: $custom-icon-color;
+    font-weight: 400;
+}
+
+.record {
+  background-color: $custom-primary-color;
+  border: 1px solid $custom-icon-color;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.3s ease;
+  margin-bottom: 1rem;
 }
 
-.record-row:hover {
-  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+.record:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
 }
 
-.record-row td {
-  padding: 15px 20px;
-  vertical-align: middle;
+.border-right {
+  border-right: 1px solid $custom-icon-color; 
 }
+
+.form-control{
+  @include form-control;
+}
+
+.state-pill {
+    @include pill
+}
+
+.state-todo {
+  border-color: $state-todo;
+  color: $state-todo;
+}
+
+.state-ongoing {
+  border-color: $state-ongoing;
+  color: $state-ongoing;
+}
+
+.state-done {
+  border-color: $state-done;
+  color: $state-done;
+}
+
+.company-pill {
+    @include pill
+}
+
+.company-orange {
+  border-color: $company-orange-id;
+  color: $company-orange-id;
+}
+
+.company-lubex {
+  border-color: $company-lubex;
+  color: $company-lubex;
+}
+
+
 </style>
