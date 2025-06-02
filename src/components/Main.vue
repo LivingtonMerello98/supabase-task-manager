@@ -3,14 +3,17 @@
 import Header from './Header.vue';
 import TaskList from './TaskList.vue';
 import { taskStore } from '@/store';
+import AddTaskModal from './AddTaskModal.vue';
 
 export default {
-  components: { Header, TaskList },
+  components: { Header, TaskList , AddTaskModal },
   data() {
     return {
       isHidden: false,
       store: taskStore,
-       filterText: ''
+       filterText: '',
+       showAddModal: false,
+
     };
   },
   mounted() {
@@ -76,11 +79,20 @@ export default {
           <img v-else src="/sidebar-open.svg" alt="Chiudi" class="img-toggle"/>
         </button>
       </div>
-
+      
       <div class="container-fluid">
         <!-- aggiungi task e filtra -->
         <hr class="line">
-          <div class="d-flex py-3">
+        <div class="d-flex py-3">
+            <!-- add task -->
+            <div class="action-button me-3">
+              <button class="input-group" @click="showAddModal = true">
+                <span class="icon">
+                  <font-awesome-icon icon="plus" class="me-2" />
+                </span>
+                <span class="button-label">Add Task</span>
+              </button>
+            </div>
             <!-- filtro -->
             <div class="action-button me-3">
               <button class="input-group">
@@ -97,23 +109,13 @@ export default {
               </button>
             </div>
 
-            <!-- add task -->
-            <div class="action-button">
-              <button class="input-group">
-                <span class="icon">
-                  <font-awesome-icon icon="plus" class="me-2" />
-                </span>
-                <span class="button-label">Add Task</span>
-              </button>
-            </div>
-
-            
           </div>
         <hr class="line">
         <!-- Task list -->
         <TaskList />
         <hr class="line mt-4">
       </div>
+      <AddTaskModal :visible="showAddModal" @close="showAddModal = false" />
     </div>
   </div>
 </template>
