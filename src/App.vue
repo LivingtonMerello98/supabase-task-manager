@@ -5,16 +5,16 @@ export default {
 </script>
 
 <template>
-  <section class="bg-dark min-vh-100">
+  <section class="section">
     <router-view />
   </section>
 </template>
 
-<style>
-body {
-  margin: 0;
-  font-family: sans-serif;
-  background-color: #121212;
-  color: white;
+<style lang="scss" scoped>
+@use 'src/assets/partials/mixin' as*;
+@use 'src/assets/partials/variables' as*;
+
+.section {
+  background-color:$custom-primary-color;
 }
 </style>

@@ -1,0 +1,160 @@
+@use './variables' as *;
+
+//buttons 
+
+//button from primary to grey in hover
+@mixin btn-primary-to-secondary {
+    background-color: $custom-primary-color ;
+    color: #ffff;
+    padding: $custom-btn-padding;
+    border-radius: $custom-btn-border-radius;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.9px;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+
+    &:hover {
+        color: $custom-primary-color  ;
+        background-color: #FCFFB2;
+        transition-delay: 0.1s;
+        box-shadow: offset-x offset-y blur-radius color;    
+    }
+}
+
+//button from primary to white in hover
+@mixin btn-primary-to-white {
+    background-color: $custom-primary-color;
+    border: none;
+    color: #ffff;
+    padding: $custom-btn-padding;
+    border-radius: $custom-btn-border-radius;
+    font-weight: 600;
+    letter-spacing: 0.9px;
+
+    &:hover {
+        color: $custom-primary-color ;
+        background-color: #ffff;
+    }
+}
+
+
+//button from border 1px white to bg-white in hover
+@mixin btn-border-to-white {
+    border: 1px solid white;
+    color: #ffff;
+    padding: $custom-btn-padding;
+    border-radius: $custom-btn-border-radius;
+    background-color: #ffffff00;
+    font-weight: 600;
+    letter-spacing: 0.9px;
+
+    &:hover {
+        color: $custom-secondary-color;
+        background-color: white;
+    }
+}
+
+//text secondary-color
+
+
+
+@mixin paragraph-white {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffff;
+}
+
+@mixin paragraph-thin {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8em;
+    color: $custom-color-thin-paragraph;
+}
+
+
+@mixin paragraph-bold {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.75em;
+    color: $custom-secondary-color;
+}
+
+//titles sections secondary-color
+@mixin title-section {
+    font-size: $custom-title-section-size;
+    font-weight: 800;
+    color: $custom-color-title-paragraph;
+}
+
+@mixin sub-title-l {
+    font-size: $custom-sub-title-l;
+    font-weight: 700;
+    color: $custom-color-title-paragraph;
+}
+
+@mixin sub-title-m {
+    font-size: $custom-sub-title-m;
+    font-weight: 700;
+    color: $custom-color-title-paragraph;
+}
+
+@mixin sub-title-s {
+    font-size: $custom-sub-title-s;
+    font-weight: 700;
+    color: $custom-color-title-paragraph;
+}
+
+
+//text white-color bg-image
+
+@mixin title-xs {
+    font-size: $custom-sub-title-m;
+    font-weight: 400;
+    color: #ffff;
+}
+
+@mixin title-s {
+    font-size: $custom-title-s;
+    font-weight: 700;
+    color: #ffff;
+}
+
+@mixin title-m {
+    font-size: $custom-title-m;
+    font-weight: 600;
+    color: #ffff;
+}
+
+@mixin title-thin-m {
+    font-size: $custom-title-m;
+    font-weight: 200;
+    color: #ffff;
+}
+
+@mixin title-l {
+    font-size: $custom-title-l;
+    font-weight: 800;
+    color: #ffff;
+}
+
+@mixin title-xl {
+    font-size: $custom-title-xl;
+    font-weight: 700;
+    color: #ffff;
+}
+
+//input
+@mixin form-control {
+  background-color: $custom-secondary-color;
+   border: 1px solid $custom-border-color;
+   color: $custom-icon-color;
+   line-height: 0.5;
+  
+  &:focus {  
+    background-color: $custom-secondary-color;
+    outline: none;
+    box-shadow: 0 0 4px 1px rgba($custom-outline-color, 0.4); 
+    border: none;
+    color: $custom-icon-color;
+  }
+}

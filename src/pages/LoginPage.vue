@@ -1,6 +1,5 @@
 <script>
 import { supabase } from '@/supabase';
-
 export default {
   name: 'LoginPage',
   data() {
@@ -12,7 +11,7 @@ export default {
       isLoading: false,
       message: {
         text: '',
-        type: '', // success o danger
+        type: '', 
         icon: ''
       }
     };
@@ -27,7 +26,7 @@ export default {
             .from('app_user')
             .select('*')
             .eq('username', this.form.email)
-            .eq('password', this.form.password) // ⚠️ solo per test, vedi sotto
+            .eq('password', this.form.password) 
 
             if (error) throw error;
             if (!data || data.length === 0) throw new Error('Credenziali non valide');
@@ -42,7 +41,7 @@ export default {
             // (Opzionale) salva user nel localStorage
             localStorage.setItem('user', JSON.stringify(data[0]));
             localStorage.setItem('userLoggedIn', 'true');
-            this.$router.push('/dashboard');
+            this.$router.push('/main');
         } catch (error) {
             console.error("Login error:", error);
             this.showMessage(
@@ -65,17 +64,15 @@ export default {
 </script>
 
 <template>
-  <div class="login-page">
+  <div class="page">
     <div class="container mt-5">
         <div class="row justify-content-center">
           <div class="col-md-6 col-lg-4">
             <div class="card shadow">
               <div class="card-body">
-                <h2 class="card-title text-center mb-4">
-                  <font-awesome-icon icon="sign-in-alt" class="me-2" />
-                  Login
-                </h2>
-    
+                <div class="d-flex justify-content-center mb-4">
+                  <img src="/public/logo.svg" alt="logo" class="logo">
+                </div>
                 <form @submit.prevent="handleLogin">
                   <!-- Email -->
                   <div class="mb-3">
@@ -89,7 +86,7 @@ export default {
                   </div>
     
                   <!-- Password -->
-                  <div class="mb-4">
+                  <div class="mb-5">
                     <label class="form-label">Password</label>
                     <div class="input-group">
                       <span class="input-group-text">
@@ -100,15 +97,17 @@ export default {
                   </div>
     
                   <!-- Submit Button -->
-                  <button 
-                    type="submit" 
-                    class="btn btn-primary w-100"
-                    :disabled="isLoading"
-                  >
-                    <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                    <span v-else><font-awesome-icon icon="sign-in-alt" class="me-2" /></span>
-                    Accedi
-                  </button>
+                  <div class="col-md-12 d-flex justify-content-center">
+                    <button 
+                      type="submit" 
+                      class="button"
+                      :disabled="isLoading"
+                    >
+                      <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                      <!-- <span v-else><font-awesome-icon icon="sign-in-alt" class="me-2" /></span> -->
+                      Accedi
+                    </button>
+                  </div>
                 </form>
     
                 <!-- Messaggio di stato -->
@@ -128,17 +127,42 @@ export default {
   </div>
 </template>
 
-<style scoped>
-.login-page {
-  min-height: 80vh;
+<style lang="scss"scoped>
+@use 'src/assets/partials/mixin' as*;
+@use 'src/assets/partials/variables' as*;
+
+.logo{
+  width: 100px;
+}
+
+.page {
+  min-height: 100vh;
   display: flex;
   align-items: center;
 }
 .card {
-  border-radius: 10px;
+  border-radius: 0.5rem;
+  background-color: $custom-secondary-color;
+  color: $custom-text-white;
+  padding:$custom-card-padding;
 }
-.input-group-text {
-  width: 40px;
-  justify-content: center;
+
+.form-label{
+  font-size: 12px;
+  color: $custom-label-color ;
+}
+
+.input-group-text{
+  background-color: $custom-secondary-color;
+  color:$custom-icon-color;
+  border: 1px solid $custom-border-color;
+}
+
+.form-control{
+  @include form-control;
+}
+
+.button{
+  @include btn-primary-to-secondary;
 }
 </style>
