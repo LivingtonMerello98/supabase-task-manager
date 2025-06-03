@@ -41,7 +41,7 @@ export default {
             // (Opzionale) salva user nel localStorage
             localStorage.setItem('user', JSON.stringify(data[0]));
             localStorage.setItem('userLoggedIn', 'true');
-            this.$router.push('/main');
+            this.$router.push('/main/tasks');
         } catch (error) {
             console.error("Login error:", error);
             this.showMessage(

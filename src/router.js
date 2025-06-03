@@ -8,7 +8,7 @@ const routes = [
     { path: '/', name: 'Login', component: LoginPage },
     { path: '/signup', name: 'Signup', component: SignupPage },
     {
-        path: '/main',
+        path: '/main/tasks',
         name: 'Main',
         component: Main,
         beforeEnter: (to, from, next) => {
