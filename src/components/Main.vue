@@ -1,18 +1,19 @@
 <script>
 //main
+import Sidebar from './Sidebar.vue';
 import Header from './Header.vue';
 import TaskList from './TaskList.vue';
 import { taskStore } from '@/store';
 import AddTaskModal from './AddTaskModal.vue';
 
 export default {
-  components: { Header, TaskList , AddTaskModal },
+  components: { Header, TaskList , AddTaskModal, Sidebar },
   data() {
     return {
       isHidden: false,
       store: taskStore,
-       filterText: '',
-       showAddModal: false,
+      filterText: '',
+      showAddModal: false,
 
     };
   },
@@ -47,7 +48,7 @@ export default {
       </p>
     </div>
     <div class="sidebar" :class="{ hidden: isHidden }">
-      
+      <Sidebar/>
     </div>
 
     <div class="content">

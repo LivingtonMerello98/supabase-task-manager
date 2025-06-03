@@ -66,7 +66,7 @@ export default {
 }
 
 .table-scroll-wrapper{
-  max-height: 550px;
+  height: 550px;
   overflow-y: auto;
   border-radius: 10px;
   padding: 10px;

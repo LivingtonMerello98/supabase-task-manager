@@ -223,7 +223,7 @@ export default {
   background-color: transparent;
   border: 1px solid;
   border-radius: 1rem;
-  width: 50px;  // un po’ più grande per contenere bene l’icona
+  width: 50px; 
   height: 32px;
   padding: 0;
   display: flex;
