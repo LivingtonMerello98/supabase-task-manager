@@ -21,12 +21,19 @@ export default {
             this.newMessage = '';
 
             try {
-            // Chiamata al backend
-            const response = await fetch('/api/chatbot/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: userMessage }),
+            // Chiamata al backend x qunado uso express
+            // const response = await fetch('/api/chatbot/', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ message: userMessage }),
+            // });
+
+            const response = await fetch('/.netlify/functions/chatbot', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: userMessage }),
             });
+
 
             const data = await response.json();
 
