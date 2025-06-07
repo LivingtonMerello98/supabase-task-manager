@@ -5,9 +5,10 @@ import Header from './Header.vue';
 import TaskList from './TaskList.vue';
 import { taskStore } from '@/store';
 import AddTaskModal from './AddTaskModal.vue';
+import ChatBot from './ChatBot.vue';
 
 export default {
-  components: { Header, TaskList , AddTaskModal, Sidebar },
+  components: { Header, TaskList , AddTaskModal, Sidebar, ChatBot },
   data() {
     return {
       isHidden: false,
@@ -117,6 +118,7 @@ export default {
         <hr class="line mt-4">
       </div>
       <AddTaskModal :visible="showAddModal" @close="showAddModal = false" />
+      <ChatBot/>
     </div>
   </div>
 </template>

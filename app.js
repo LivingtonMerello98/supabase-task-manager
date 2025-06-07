@@ -1,12 +1,16 @@
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
 
+
 dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 
 const openai = new OpenAI({
@@ -14,7 +18,7 @@ const openai = new OpenAI({
 });
 
 // Prompt system fisso
-const systemPrompt = "Sei un assistente per la gestione di task, rispondi solo in modo chiaro e sintetico.";
+const systemPrompt = "Sei un assistente task. Alla prima risposta saluta e chiama l'utente Livingstone. Rispondi in modo chiaro e sintetico.";
 
 app.get('/', (req, res) => {
   res.send('Backend Express è attivo');
@@ -31,7 +35,7 @@ app.post('/api/chatbot/', async (req, res) => {
         { role: 'system', content: systemPrompt },
         { role: 'user', content: message }
       ],
-      max_tokens: 300,
+      max_tokens: 100,
     });
 
     const reply = response.choices[0].message.content;

@@ -16,5 +16,14 @@ export default defineConfig({
         quietDeps: true // Ignora avvisi da dipendenze (es. Bootstrap)
       }
     }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   }
 })
