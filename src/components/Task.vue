@@ -14,11 +14,14 @@ export default {
     return {
       editing: false,
       editedTask: {
-        name: '',
-        description: '',
-        state_id: ''
-      },
-      states: []
+      name: '',
+      description: '',
+      state_id: '',
+      time: '',
+      company_id: ''
+    },
+     states: [],
+     companies: []
     };
   },
   computed: {
@@ -27,8 +30,25 @@ export default {
     }
   },
   async mounted() {
-    const { data } = await supabase.from('state').select('id, description_state');
-    this.states = data || [];
+    try {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError || !userData?.user) throw new Error('Utente non autenticato');
+
+      const userId = userData.user.id;
+
+      const [{ data: states, error: stateError }, { data: companies, error: companyError }] = await Promise.all([
+        supabase.from('state').select('id, description_state'),
+        supabase.from('company').select('id, name_company').eq('owner_id', userId)
+      ]);
+
+      if (stateError) throw stateError;
+      if (companyError) throw companyError;
+
+      this.states = states || [];
+      this.companies = companies || [];
+    } catch (err) {
+      console.error('Errore nel caricamento di stati o aziende:', err.message);
+    }
   },
   methods: {
     formatDate(dateStr) {
@@ -40,7 +60,9 @@ export default {
       this.editedTask = {
         name: this.task.name,
         description: this.task.description,
-        state_id: this.task.state_id
+        state_id: this.task.state_id,
+        time: this.task.time || '',
+        company_id: this.task.company_id
       };
     },
     getStateClass(state) {
@@ -100,7 +122,15 @@ export default {
           <span class="description" v-else>{{ task.description.length > 25 ? task.description.slice(0, 25) + '...' : task.description }}</span>
         </div>
         <div class="col-2 d-flex justify-content-center align-items-center border-right">
-          {{ task.time }}
+          <input
+            v-if="editing"
+            type="time"
+            v-model="editedTask.time"
+            class="form-control"
+          />
+          <span v-else>
+            {{ task.time }}
+          </span>
         </div>
         <div class="col-2 d-flex justify-content-center align-items-center">
           <select v-if="editing" v-model="editedTask.state_id" class="form-select">
@@ -116,11 +146,18 @@ export default {
           </span>
         </div>
         <div class="col-2 d-flex justify-content-center align-items-center">
-            <span
-                :class="['company-pill', getCompanyClass(task.company.name_company)]"
-            >
-                {{ task.company.name_company }}
-            </span>
+          <select v-if="editing" v-model="editedTask.company_id" class="form-select">
+            <option disabled value="">Select company</option>
+            <option v-for="company in companies" :key="company.id" :value="company.id">
+              {{ company.name_company }}
+            </option>
+          </select>
+          <span
+            v-else
+            :class="['company-pill', getCompanyClass(task.company.name_company)]"
+          >
+            {{ task.company.name_company }}
+          </span>
         </div>
       </div>
     </div>

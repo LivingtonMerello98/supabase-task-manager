@@ -18,41 +18,43 @@ export default {
   },
   methods: {
     async handleLogin() {
-        this.isLoading = true;
-        this.resetMessage();
+      this.isLoading = true;
+      this.resetMessage();
 
-        try {
-            const { data, error } = await supabase
-            .from('app_user')
-            .select('*')
-            .eq('username', this.form.email)
-            .eq('password', this.form.password) 
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: this.form.email,
+          password: this.form.password,
+        });
+        console.log(this.form.email, this.form.password)
 
-            if (error) throw error;
-            if (!data || data.length === 0) throw new Error('Credenziali non valide');
+        if (error) throw error;
 
-            // Successo
-            this.showMessage(
-            'Accesso effettuato con successo!',
-            'success',
-            'check-circle'
-            );
+        // Login riuscito
+        this.showMessage(
+          'Accesso effettuato con successo!',
+          'success',
+          'check-circle'
+        );
 
-            // (Opzionale) salva user nel localStorage
-            localStorage.setItem('user', JSON.stringify(data[0]));
-            localStorage.setItem('userLoggedIn', 'true');
-            this.$router.push('/main/tasks');
-        } catch (error) {
-            console.error("Login error:", error);
-            this.showMessage(
-            error.message || 'Errore durante l\'accesso',
-            'danger',
-            'exclamation-triangle'
-            );
-        } finally {
-            this.isLoading = false;
-        }
+        // Salva user nel localStorage (se vuoi)
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('userLoggedIn', 'true');
+
+        this.$router.push('/main/tasks');
+        
+      } catch (error) {
+        console.error("Login error:", error);
+        this.showMessage(
+          error.message || 'Errore durante l\'accesso',
+          'danger',
+          'exclamation-triangle'
+        );
+      } finally {
+        this.isLoading = false;
+      }
     },
+
     resetMessage() {
       this.message = { text: '', type: '', icon: '' };
     },
