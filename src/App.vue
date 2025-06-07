@@ -17,7 +17,7 @@ export default {
         this.messages.push({ text: this.newMessage, fromUser: true });
         this.newMessage = '';
         setTimeout(() => {
-          this.messages.push({ text: 'Risposta automatica 🤖', fromUser: false });
+          this.messages.push({ text: 'Risposta automatica', fromUser: false });
         }, 500);
       }
     }

@@ -17,6 +17,9 @@
     "@supabase/supabase-js": "^2.49.4",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "openai": "^5.1.1",
     "sass": "^1.78.0",
     "vue": "^3.4.37",
     "vue-router": "^4.4.3"
