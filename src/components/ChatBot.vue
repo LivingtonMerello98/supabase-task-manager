@@ -34,7 +34,6 @@ export default {
               body: JSON.stringify({ message: userMessage }),
             });
 
-
             const data = await response.json();
 
             if (response.ok) {
