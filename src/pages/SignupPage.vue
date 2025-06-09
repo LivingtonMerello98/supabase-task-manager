@@ -1,71 +1,87 @@
 <script>
-//singup page
+// signup page
 import { supabase } from '@/supabase';
+
 export default {
   name: 'SignupPage',
   data() {
     return {
       isLoading: false,
       form: {
-        email: '',
-        password: '',
-        confirmPassword: ''
+      email: '',
+      password: '',
+      confirmPassword: ''
       },
       message: {
-        text: '',
-        type: '', // 'success' o 'danger'
-        icon: '' // es. 'check-circle' o 'exclamation-triangle'
-      }
-    }
-  },
-  computed: {
-    passwordsMatch() {
-      return this.form.password === this.form.confirmPassword
-    }
-  },
-  methods: {
-    async handleLogin() {
-    this.isLoading = true;
-    this.resetMessage();
-
-    try {
-        const { data, error } = await supabase
-        .from('app_user')
-        .select('*')
-        .eq('username', this.form.email)  
-        .eq('password', this.form.password)
-        .single();
-
-        if (error || !data) {
-        throw new Error('Credenziali non valide');
-        }
-
-        this.showMessage('Accesso effettuato con successo!', 'success', 'check-circle');
-
-        // Salva user id se vuoi
-        localStorage.setItem('userId', data.id);
-
-        // Redirect
-        this.$router.push('/dashboard');
-    } catch (error) {
-        this.showMessage(error.message || 'Errore durante l\'accesso', 'danger', 'exclamation-triangle');
-    } finally {
-        this.isLoading = false;
-    }
-    },
-    resetMessage() {
-      this.message = {
         text: '',
         type: '',
         icon: ''
       }
+    };
+  },
+  computed: {
+    passwordsMatch() {
+      return this.form.password === this.form.confirmPassword;
+    }
+  },
+  methods: {
+    async handleSignup() {
+      this.isLoading = true;
+      this.resetMessage();
+
+      if (!this.passwordsMatch) {
+        this.showMessage('Le password non coincidono.', 'danger', 'exclamation-triangle');
+        this.isLoading = false;
+        return;
+      }
+
+      try {
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+          email: this.form.email,
+          password: this.form.password
+        });
+
+        if (signUpError) throw signUpError;
+
+        const userId = signUpData?.user?.id;
+        const email = this.form.email;
+        const plainPassword = this.form.password;
+
+        if (!userId) throw new Error('ID utente non disponibile dopo la registrazione.');
+
+        // Inserimento o aggiornamento in app_user
+        const { error: insertError } = await supabase
+          .from('app_user')
+          .upsert([{
+            id: userId,
+            username: email,
+            password: plainPassword
+          }], { onConflict: 'id' });
+
+        if (insertError) {
+          this.showMessage('Registrazione riuscita, ma sincronizzazione su app_user non completata.', 'danger', 'exclamation-triangle');
+          console.error('Errore insert app_user:', insertError);
+        } else {
+          this.showMessage('Registrazione completata con successo! Controlla la tua email.', 'success', 'check-circle');
+        }
+      } catch (error) {
+        this.showMessage(error.message || 'Errore durante la registrazione.', 'danger', 'exclamation-triangle');
+        console.error('Errore generale:', error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    resetMessage() {
+      this.message = { text: '', type: '', icon: '' };
     },
     showMessage(text, type, icon) {
-      this.message = { text, type, icon }
+      this.message = { text, type, icon };
     }
   }
-}
+};
 </script>
+
 
 <template>
   <div class="page">
@@ -83,7 +99,7 @@ export default {
                 <img src="/logo-name.svg" alt="logo" class="logo">
               </div>
 
-              <form @submit.prevent="handleSubmit">
+              <form @submit.prevent="handleSignup">
                 <!-- Email -->
                 <div class="mb-3">
                   <label class="form-label">Email</label>
@@ -150,7 +166,7 @@ export default {
 
                 <!-- Link a Login -->
                 <div class="text-center mt-5">
-                  <router-link to="/login" class="text-decoration-none">
+                  <router-link to="/" class="text-decoration-none">
                     <font-awesome-icon icon="sign-in-alt" class="me-1 accedi-link" />
                     <span class="accedi-link">Hai già un account? Accedi</span>
                   </router-link>
@@ -160,12 +176,15 @@ export default {
               <!-- Messaggio di stato -->
               <div 
                 v-if="message.text" 
-                class="alert mt-3"
-                :class="`alert-${message.type}`"
+                class="state-message shadow d-flex justify-content-center align-items-center"
+                :class="[message.type, 'visible']"
               >
-                <font-awesome-icon :icon="message.icon" class="me-2" />
+                <font-awesome-icon :icon="message.icon" class="me-2" :class="message.type" />
                 {{ message.text }}
               </div>
+
+
+
             </div>
           </div>
         </div>
@@ -177,6 +196,35 @@ export default {
 <style lang="scss" scoped>
 @use 'src/assets/partials/mixin' as*;
 @use 'src/assets/partials/variables' as*;
+
+.icon-success{
+  color:$state-todo;
+}
+.icon-danger{
+  color:$state-done;
+}
+
+
+.state-message {
+  position: absolute;
+  background-color: $custom-secondary-color;
+  padding: 1rem 0.9rem;
+  top: -190px;
+  border-radius: 0.5rem;
+  left: 0;
+  right: 0;
+
+  /* Effetto fade e slide */
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.state-message.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 .accedi-link{
   font-size: 13px;

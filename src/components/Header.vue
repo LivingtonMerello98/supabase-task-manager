@@ -8,7 +8,7 @@ export default {
     methods: {
         handleLogout() {
         localStorage.removeItem('userLoggedIn');
-        this.$router.push('/login');
+        this.$router.push('/');
         },
     }
 };
