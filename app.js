@@ -1,3 +1,6 @@
+//non utilizzato per il momento
+//per riutilizzarlo in ambienti di test installare nodemon
+/*
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -49,4 +52,4 @@ app.post('/api/chatbot/', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server in ascolto sulla porta ${PORT}`);
-});
+});*/

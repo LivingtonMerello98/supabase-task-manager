@@ -45,7 +45,7 @@ export const taskStore  = reactive({
           )
         `)
         .eq('owner_id', userId)
-        .order('id', { descending: true });
+        .order('id', { ascending: false });
 
       if (error) throw error;
       this.tasks = data;

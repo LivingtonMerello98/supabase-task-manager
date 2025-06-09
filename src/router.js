@@ -5,7 +5,7 @@ import LoginPage from '@/pages/LoginPage.vue';
 import Main from './components/Main.vue';
 
 const routes = [
-    { path: '/', name: 'Login', component: LoginPage },
+    { path: '/login', name: 'Login', component: LoginPage },
     { path: '/signup', name: 'Signup', component: SignupPage },
     {
         path: '/main/tasks',

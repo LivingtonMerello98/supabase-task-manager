@@ -1,4 +1,5 @@
 <script>
+//login page
 import { supabase } from '@/supabase';
 export default {
   name: 'LoginPage',
@@ -115,6 +116,15 @@ export default {
                       Accedi
                     </button>
                   </div>
+
+                  <!-- Link a Login -->
+                  <div class="text-center mt-5">
+                    <router-link to="/signup" class="text-decoration-none">
+                      <font-awesome-icon icon="sign-in-alt" class="me-1 accedi-link" />
+                      <span class="accedi-link">Non sei ancora registrato? Registrati</span>
+                    </router-link>
+                  </div>
+
                 </form>
     
                 <!-- Messaggio di stato -->
@@ -137,6 +147,11 @@ export default {
 <style lang="scss"scoped>
 @use 'src/assets/partials/mixin' as*;
 @use 'src/assets/partials/variables' as*;
+
+.accedi-link{
+  font-size: 13px;
+  color: $custom-icon-color;
+}
 
 .sign {
   position: absolute;

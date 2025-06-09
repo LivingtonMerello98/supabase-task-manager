@@ -19,6 +19,7 @@ export default {
     };
   },
   mounted() {
+    this.store.selectedCompany = null;
     this.store.fetchCompanies();
     this.store.fetchTasks();
   },
@@ -58,7 +59,7 @@ export default {
       <div class="button-container py-3">
         <button
           class="btn btn-sm button"
-          :class="{ 'active-button': store.selectedCompany === null }"
+          :class="{ 'active-button': !store.selectedCompany }"
           :style="{ left: `${0 * 110}px` }"
           @click="setFilter(null)"
         >
@@ -77,8 +78,11 @@ export default {
         </button>
 
         <button @click="toggle" class="  toggle-button">
-          <img v-if="isHidden" src="/sidebar-open.svg" alt="Apri" class="img-toggle" />
-          <img v-else src="/sidebar-open.svg" alt="Chiudi" class="img-toggle"/>
+
+          <svg v-if="isHidden"   xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-open text-foreground-lighter hover:text-foreground-light"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18"></path><path d="m14 9 3 3-3 3"></path></svg>
+
+          <svg v-else xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-close text-foreground-lighter hover:text-foreground-light"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18"></path><path d="m16 15-3-3 3-3"></path></svg>
+
         </button>
       </div>
       
@@ -262,9 +266,13 @@ export default {
 }
 
 .toggle-button {
+  //background-color: transparent;
   background-color: transparent;
+  color: $custom-icon-color;
   border: none;
   position: absolute;
+  width: 2rem;
+  height: auto;
   top: 5rem;
   right: 1rem;
   z-index: 999;

@@ -1,3 +1,14 @@
+/*
+RICORDATI****
+ESEGUI POWERSHELL COME AMMINISTRATORE E DISATTIVA LE POLICY CON:
+Set-ExecutionPolicy RemoteSigned
+
+per segeuire il prog con  netlify dev
+
+una volta finito riabilitale con:
+Set-ExecutionPolicy Restricted
+
+*/
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
@@ -24,7 +35,7 @@ export async function handler(event) {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
-        { role: 'system', content: "Assistente task manager. Risposte chiare e sintetiche. Saluta Livingstone al primo messaggio." },
+        { role: 'system', content: "Assistente task manager. Risposte chiare e sintetiche.Saluta Livingstone al primo messaggio." },
         { role: 'user', content: message },
       ],
       max_tokens: 300,

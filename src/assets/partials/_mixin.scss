@@ -192,3 +192,11 @@
     color: white;
   }
 }
+
+@mixin chat-input-style {
+  @include form-control;
+  padding: 0.4rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+

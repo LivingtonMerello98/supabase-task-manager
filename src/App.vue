@@ -43,6 +43,5 @@ export default {
   background-color: $custom-primary-color;
   position: relative;
   min-height: 100vh;
-  padding-bottom: 3rem; 
 }
 </style>

@@ -1,4 +1,5 @@
 <script>
+//singup page
 import { supabase } from '@/supabase';
 export default {
   name: 'SignupPage',
@@ -67,21 +68,25 @@ export default {
 </script>
 
 <template>
-  <div class="signup-page">
+  <div class="page">
+    <div class="sign">
+        <p class="">
+          Designed by <span class="fw-semibold fst-italic">Method</span>.
+        </p>
+    </div>
     <div class="container mt-5">
       <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
           <div class="card shadow">
             <div class="card-body">
-              <h2 class="card-title text-center mb-4">
-                <font-awesome-icon icon="user-plus" class="me-2" />
-                Registrazione
-              </h2>
+              <div class="d-flex justify-content-center mb-4">
+                <img src="/logo-name.svg" alt="logo" class="logo">
+              </div>
 
               <form @submit.prevent="handleSubmit">
                 <!-- Email -->
                 <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
+                  <label class="form-label">Email</label>
                   <div class="input-group">
                     <span class="input-group-text">
                       <font-awesome-icon icon="envelope" />
@@ -91,14 +96,13 @@ export default {
                       type="email"
                       class="form-control"
                       required
-                      placeholder="esempio@email.com"
                     />
                   </div>
                 </div>
 
                 <!-- Password -->
                 <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
+                  <label class="form-label">Password</label>
                   <div class="input-group">
                     <span class="input-group-text">
                       <font-awesome-icon icon="lock" />
@@ -109,14 +113,13 @@ export default {
                       class="form-control"
                       required
                       minlength="6"
-                      placeholder="Minimo 6 caratteri"
                     />
                   </div>
                 </div>
 
                 <!-- Conferma Password -->
                 <div class="mb-4">
-                  <label for="confirmPassword" class="form-label">Conferma Password</label>
+                  <label class="form-label">Conferma Password</label>
                   <div class="input-group">
                     <span class="input-group-text">
                       <font-awesome-icon icon="lock" />
@@ -126,44 +129,44 @@ export default {
                       type="password"
                       class="form-control"
                       required
-                      placeholder="Ripeti la password"
                     />
                   </div>
-                  <small v-if="!passwordsMatch" class="text-danger">
+                  <small v-if="!passwordsMatch" class="text-danger err-pw">
                     Le password non coincidono
                   </small>
                 </div>
 
-                <!-- Pulsante Submit -->
-                <button 
-                  type="submit" 
-                  class="btn btn-primary w-100"
-                  :disabled="isLoading || !passwordsMatch"
-                >
-                  <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                  <span v-else><font-awesome-icon icon="user-plus" class="me-2" /></span>
-                  Registrati
-                </button>
+                <!-- Pulsante Registrati -->
+                <div class="col-md-12 d-flex justify-content-center">
+                  <button 
+                    type="submit" 
+                    class="button"
+                    :disabled="isLoading || !passwordsMatch"
+                  >
+                    <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                    Registrati
+                  </button>
+                </div>
 
                 <!-- Link a Login -->
-                <div class="text-center mt-3">
+                <div class="text-center mt-5">
                   <router-link to="/login" class="text-decoration-none">
-                    <font-awesome-icon icon="sign-in-alt" class="me-1" />
-                    Hai già un account? Accedi
+                    <font-awesome-icon icon="sign-in-alt" class="me-1 accedi-link" />
+                    <span class="accedi-link">Hai già un account? Accedi</span>
                   </router-link>
                 </div>
               </form>
-            </div>
-          </div>
 
-          <!-- Messaggio di stato -->
-          <div 
-            v-if="message.text" 
-            class="alert mt-3"
-            :class="`alert-${message.type}`"
-          >
-            <font-awesome-icon :icon="message.icon" class="me-2" />
-            {{ message.text }}
+              <!-- Messaggio di stato -->
+              <div 
+                v-if="message.text" 
+                class="alert mt-3"
+                :class="`alert-${message.type}`"
+              >
+                <font-awesome-icon :icon="message.icon" class="me-2" />
+                {{ message.text }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -171,17 +174,56 @@ export default {
   </div>
 </template>
 
-<style lang="scss"scoped>
-.signup-page {
-  min-height: 80vh;
+<style lang="scss" scoped>
+@use 'src/assets/partials/mixin' as*;
+@use 'src/assets/partials/variables' as*;
+
+.accedi-link{
+  font-size: 13px;
+  color: $custom-icon-color;
+}
+
+.sign {
+  position: absolute;
+  color: $custom-icon-color;
+  right: 100px;
+  bottom: 50px;
+  font-size: 12px;
+}
+
+.logo{
+  width: 100px;
+}
+
+.page {
+  min-height: 100vh;
   display: flex;
   align-items: center;
+  position: relative;
 }
 .card {
-  border-radius: 10px;
+  border-radius: 0.5rem;
+  background-color: $custom-secondary-color;
+  color: $custom-text-white;
+  padding:$custom-card-padding;
 }
-.input-group-text {
-  width: 40px;
-  justify-content: center;
+
+.form-label{
+  font-size: 12px;
+  color: $custom-label-color ;
+}
+
+.input-group-text{
+  background-color: $custom-secondary-color;
+  color:$custom-icon-color;
+  border: 1px solid $custom-border-color;
+}
+
+.form-control{
+  @include form-control;
+}
+
+.button{
+  @include btn-primary-to-secondary;
 }
 </style>
